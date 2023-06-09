@@ -52,9 +52,9 @@ and it has to send an email to the address and thank the client for the order.
   1. Clone the repository
   2. In the pizza-api folder run 'npm i'
   3. To change the db URL go to .env file and put the new URL
-  3. To run the server 'npm start' or "nodemon"
-  4. The application will be available at 'http://localhost:3002'
-  5. To populate the Database with pizza's information and Salesman information use Thunder with the endpoint: "/generate" 
-  6. To run the tests first start the server and then 'npm test'
+  4. To run the server 'npm start' or "nodemon"
+  5. The application will be available at 'http://localhost:3002'
+  6. To populate the Database with pizza's information and Salesman information use Thunder with the endpoint: "/generate" 
+  7. To run the tests first start the server and then 'npm test'
 ```
     
