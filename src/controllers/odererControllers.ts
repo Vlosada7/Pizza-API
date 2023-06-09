@@ -3,11 +3,17 @@ import { Request, Response } from "express";
 import { prisma } from "../../database";
 
 const getAllOrderes = async (req: Request, res: Response) => {
-	res.status(200).send("Get orderes check");
+	const orderes = await prisma.order.findMany();
+	res.status(200).send(orderes);
 };
 
 const getOrdererId = async (req: Request, res: Response) => {
-	res.status(200).send("Get orderer with id check");
+	const order = await prisma.order.findUnique({
+		where: {
+			id: req.params.id,
+		},
+	});
+	res.status(200).send(order);
 };
 
 const newOrderer = async (req: Request, res: Response) => {
