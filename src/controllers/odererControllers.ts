@@ -13,7 +13,7 @@ const getAllOrderes = async (req: Request, res: Response) => {
 };
 
 const getOrdererId = async (req: Request, res: Response) => {
-	if (req.params.id != null) {
+	if (req.params.id) {
 		try {
 			const order = await prisma.orderItem.findUnique({
 				where: {
@@ -127,7 +127,9 @@ const thankYouEmail = async (req: Request, res: Response) => {
 	}
 
 	const transporter = nodemailer.createTransport({
-		service: "Mailgun",
+		host: "smtp.mailgun.org",
+		port: 587,
+		secure: false,
 		auth: {
 			user: "postmaster@sandboxadeeec3344ab4c7994fb26346cdb1a84.mailgun.org",
 			pass: "0cf6cb09bd71bd558ec3f0a9f3dca2fa-6d1c649a-c08fa892",
