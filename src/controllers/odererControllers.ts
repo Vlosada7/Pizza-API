@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 
+import { prisma } from "../../database";
+
 const getAllOrderes = async (req: Request, res: Response) => {
 	res.status(200).send("Get orderes check");
 };
