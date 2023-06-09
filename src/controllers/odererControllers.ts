@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../../database";
+import nodemailer from "nodemailer";
 
 const getAllOrderes = async (req: Request, res: Response) => {
 	try {
@@ -118,9 +119,36 @@ const newOrderer = async (req: Request, res: Response) => {
 	}
 };
 
-
 const thankYouEmail = async (req: Request, res: Response) => {
-	res.status(202).send("Send email check");
+	const { email } = req.body;
+
+	if (!email) {
+		return res.status(400).json({ error: "Email address is required" });
+	}
+
+	const transporter = nodemailer.createTransport({
+		service: "Mailgun",
+		auth: {
+			user: "postmaster@sandboxadeeec3344ab4c7994fb26346cdb1a84.mailgun.org",
+			pass: "0cf6cb09bd71bd558ec3f0a9f3dca2fa-6d1c649a-c08fa892",
+		},
+	});
+
+	const mailOptions = {
+		from: "postmaster@sandboxadeeec3344ab4c7994fb26346cdb1a84.mailgun.org",
+		to: email,
+		subject: "Thank You for Your Order",
+		text: "Thank you for your order. We appreciate your business!",
+	};
+
+	transporter.sendMail(mailOptions, (error, info) => {
+		if (error) {
+			console.error(error);
+			return res.status(500).send({ error: "Error sending email" });
+		}
+		console.log("Email sent:", info.response);
+		res.status(200).send({ message: "Email sent successfully" });
+	});
 };
 
 export { getAllOrderes, getOrdererId, newOrderer, thankYouEmail };
