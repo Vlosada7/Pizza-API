@@ -14,7 +14,7 @@ const getAllOrderes = async (req: Request, res: Response) => {
 const getOrdererId = async (req: Request, res: Response) => {
 	if (req.params.id != null) {
 		try {
-			const order = await prisma.order.findUnique({
+			const order = await prisma.orderItem.findUnique({
 				where: {
 					id: req.params.id,
 				},
@@ -25,17 +25,14 @@ const getOrdererId = async (req: Request, res: Response) => {
 			res.status(500).send({ message: "Unexpected API error" });
 		}
 	} else {
-		res
-			.status(400)
-			.json({
-				message:
-					"Parameter missing to find orderer.",
-			});
+		res.status(400).json({
+			message: "Parameter missing to find orderer.",
+		});
 	}
 };
 
 const newOrderer = async (req: Request, res: Response) => {
-  try {
+	try {
 		const { pizzaId, pizzaQuantity } = req.body;
 		if (!pizzaId || !pizzaQuantity) {
 			res.status(400).send("Missing pizzaId or pizzaQuantity");
@@ -84,7 +81,10 @@ const newOrderer = async (req: Request, res: Response) => {
 				return;
 			}
 
-			const nextSalesmanIndex = lastSalesman.round_robin_index + 1;
+			let nextSalesmanIndex = lastSalesman.round_robin_index + 1;
+			if (nextSalesmanIndex > 6) {
+				nextSalesmanIndex = 1;
+			}
 			const nextSalesman = await prisma.salesman.findFirst({
 				where: {
 					round_robin_index: nextSalesmanIndex,
