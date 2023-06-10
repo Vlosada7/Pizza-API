@@ -44,6 +44,40 @@ describe("newOrderer", () => {
     expect(response.body.pizzaId).toEqual(mockOrder.pizzaId);
     expect(response.body.quantity).toEqual(mockOrder.pizzaQuantity);
 	});
+	it("Should respect the index ordere", async () => {
+		const orderes = await prisma.order.findMany();
+		if (orderes.length == 0) {
+			const res = await request(URL).put("/order").send(mockOrder);
+			const newOrderer = res.body.orderId;
+			const lastSalesman = newOrderer.salesmanId;
+			const lastSalesmanIndex = lastSalesman.round_robin_index;
+			expect(lastSalesmanIndex).toEqual(1);
+		} else {
+			const lastOrder = orderes[orderes.length - 1];
+			const lastSalesman = lastOrder.salesmanId;
+			const lastSalesmanIndex = await prisma.salesman.findUnique({
+				where: {
+					id: lastSalesman,
+				},
+			});
+			const penultimateOrder = orderes[orderes.length - 2];
+			const penultimateSalesman = penultimateOrder.salesmanId;
+			const penultimateSalesmanIndex = await prisma.salesman.findUnique({
+				where: {
+					id: penultimateSalesman,
+				},
+			});
+			if (penultimateSalesmanIndex) {
+				if (penultimateSalesmanIndex?.round_robin_index === 6) {
+					expect(lastSalesmanIndex?.round_robin_index).toBe(1);
+				} else {
+					expect(lastSalesmanIndex?.round_robin_index).toBe(
+						penultimateSalesmanIndex?.round_robin_index + 1
+					);
+				}
+			}
+		}
+	});
 });
 
 describe("getOrdererId", () => {
