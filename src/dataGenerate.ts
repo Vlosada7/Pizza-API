@@ -24,13 +24,13 @@ const generatePizzaAndSalesman = async (req: Request, res: Response) => {
 				{ name: "Rodriguez", round_robin_index: 5 },
 				{ name: "Williams", round_robin_index: 6 },
 			];
-			const createRecords = await prisma.pizza.createMany({
+			const pizzasRecords = await prisma.pizza.createMany({
 				data: pizzasToCreate,
 			});
-			const createRecords1 = await prisma.salesman.createMany({
+			const salesmanRecords = await prisma.salesman.createMany({
 				data: salesmanToCreate,
 			});
-			res.status(201).send({message: "Pizzas and salesman generate", data: createRecords, createRecords1});
+			res.status(201).send({message: "Pizzas and salesman generate", data: pizzasRecords, salesmanRecords});
 		} catch (error) {
 			res.status(500).send("API ERROR");
 		}

@@ -5,7 +5,11 @@ import nodemailer from "nodemailer";
 const getAllOrderes = async (req: Request, res: Response) => {
 	try {
 		const orderes = await prisma.order.findMany();
-		res.status(200).send(orderes);
+		if (orderes.length === 0) {
+			res.status(204).send("No orderes yet");
+		} else {
+			res.status(200).send(orderes);
+		}
 	} catch (error) {
 		console.error(error);
 		res.status(500).send({ message: "Unexpected API error" });
@@ -20,7 +24,11 @@ const getOrdererId = async (req: Request, res: Response) => {
 					id: req.params.id,
 				},
 			});
-			res.status(200).send(order);
+			if (order) {
+				res.status(200).send(order);
+			} else {
+				res.status(204).send("order Id is wrong or the order doesn't exist");
+			}
 		} catch (error) {
 			console.error(error);
 			res.status(500).send({ message: "Unexpected API error" });

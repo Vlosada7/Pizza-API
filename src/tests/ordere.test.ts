@@ -18,8 +18,8 @@ describe("getAllOrderes", () => {
 		const response = await request(URL).get("/orders");
 		const orders = await prisma.order.findMany();
 		if (orders.length === 0) {
-			expect(response.status).toBe(200);
-			expect(response.body).toEqual([]);
+			expect(response.status).toBe(204);
+			expect(response.body).toEqual("No orderes yet");
 		} else {
 			expect(response.status).toBe(200);
 			expect(response.body).toEqual(orders);
