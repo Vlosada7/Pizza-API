@@ -39,5 +39,4 @@ const generatePizzaAndSalesman = async (req: Request, res: Response) => {
 	}
 	
 };
-
 export { generatePizzaAndSalesman };

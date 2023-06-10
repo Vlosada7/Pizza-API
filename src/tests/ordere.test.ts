@@ -33,13 +33,13 @@ describe("newOrderer", () => {
 	});
 	it("Should return 400 if dont pass pizzaId", async () => {
 		const response = await request(URL).put("/order").send({
-			pizzaQuantity: 2,
+			pizzaQuantity: mockOrder.pizzaQuantity,
 		});
 		expect(response.status).toBe(400);
 	});
 	it("Should return 400 if dont pass pizzaQuantity", async () => {
 		const response = await request(URL).put("/order").send({
-			pizzaId: "423eb19d-4fa6-4e48-b252-3ab65f7bed58",
+			pizzaId: mockOrder.pizzaId,
 		});
 		expect(response.status).toBe(400);
 	});
