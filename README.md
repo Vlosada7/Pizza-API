@@ -11,7 +11,7 @@ connect and read (but you won’t be able to update/delete any record). The cred
 will be given together with this document.
 ## Tech Stack
 
-**Back-end:** Node, Express, PostgresSQL, Typescript, Prisma, jest and Supertest
+**Back-end:** Node, Express, PostgresSQL, Typescript, Prisma, jest and Supertest, nodemailer
 
 
 ## How it works?
