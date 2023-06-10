@@ -17,8 +17,13 @@ describe("getAllOrderes", () => {
 	it("Should return all orderes and status 200", async () => {
 		const response = await request(URL).get("/orders");
 		const orders = await prisma.order.findMany();
-		expect(response.status).toBe(200);
-		expect(response.body).toEqual(orders);
+		if (orders.length === 0) {
+			expect(response.status).toBe(200);
+			expect(response.body).toEqual([]);
+		} else {
+			expect(response.status).toBe(200);
+			expect(response.body).toEqual(orders);
+		}
 	});
 });
 
