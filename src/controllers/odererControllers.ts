@@ -135,17 +135,17 @@ const thankYouEmail = async (req: Request, res: Response) => {
 	}
 
 	const transporter = nodemailer.createTransport({
-		host: "smtp.mailgun.org",
-		port: 587,
+		host: "host.url",
+		port: 777,
 		secure: false,
 		auth: {
-			user: "postmaster@sandboxadeeec3344ab4c7994fb26346cdb1a84.mailgun.org",
-			pass: "0cf6cb09bd71bd558ec3f0a9f3dca2fa-6d1c649a-c08fa892",
+			user: "user",
+			pass: "password",
 		},
 	});
 
 	const mailOptions = {
-		from: "postmaster@sandboxadeeec3344ab4c7994fb26346cdb1a84.mailgun.org",
+		from: "email",
 		to: email,
 		subject: "Thank You for Your Order",
 		text: "Thank you for your order. We appreciate your business!",
